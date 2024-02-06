@@ -7,7 +7,8 @@ public class Unit : MonoBehaviour
 {
 
     private Vector3 _targetPosition;
-    private float _stoppingDistance = 1f;
+    private float _stoppingDistance = .1f;
+    private float moveSpeed = 4f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,15 +20,13 @@ public class Unit : MonoBehaviour
     {
         if(Vector3.Distance(transform.position, _targetPosition)>_stoppingDistance)
         {
-Vector3 moveDirection = (_targetPosition - transform.position).normalized;
-        float moveSpeed = 4f;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-        if(Input.GetKeyDown(KeyCode.T))
+            var moveDirection = (_targetPosition - transform.position).normalized;
+            transform.position += moveSpeed * Time.deltaTime * moveDirection;
+        }
+        if (Input.GetMouseButtonDown(0))
         {
-            Move(new Vector3(4,0,4));
+            Move(MouseWorld.GetPosition());
         }
-        }
-        
     }
 
     private void Move(Vector3 targetPosition)
