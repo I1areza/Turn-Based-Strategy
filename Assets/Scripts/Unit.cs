@@ -9,6 +9,9 @@ public class Unit : MonoBehaviour
     private Vector3 _targetPosition;
     private float _stoppingDistance = .1f;
     private float moveSpeed = 4f;
+
+    [SerializeField] private Animator unitAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +21,16 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(Vector3.Distance(transform.position, _targetPosition)>_stoppingDistance)
         {
             var moveDirection = (_targetPosition - transform.position).normalized;
             transform.position += moveSpeed * Time.deltaTime * moveDirection;
+            unitAnimator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            unitAnimator.SetBool("IsWalking", false);
         }
         if (Input.GetMouseButtonDown(0))
         {
