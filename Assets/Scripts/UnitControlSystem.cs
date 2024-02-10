@@ -1,14 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class UnitControlSystem : MonoBehaviour
 {
+    public static UnitControlSystem Instance;
+    public event EventHandler OnUnitSelected;
 
     [SerializeField] private Unit _selectedUnit;
     [SerializeField] LayerMask _unitLayerMast;
+    public Unit SelectedUnit
+    {
+        private set { _selectedUnit = value; }
+        get { return _selectedUnit; }
+    }
+
+   
+
+
+    private void Awake()
+    {
+        if (Instance != null) 
+        {
+            Debug.LogError("There's more than one instance of UnitControlSyste: "+transform + " - " + Instance );
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+   
     // Update is called once per frame
     void Update()
     {
@@ -26,10 +46,16 @@ public class UnitControlSystem : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
             {
-                _selectedUnit = unit;
+                SetSelectedUnit(unit);
                 return true;
             }  
         }
         return false;
+    }
+
+    public void SetSelectedUnit(Unit unit) 
+    {
+        _selectedUnit = unit;
+        OnUnitSelected?.Invoke(this, EventArgs.Empty);
     }
 }
