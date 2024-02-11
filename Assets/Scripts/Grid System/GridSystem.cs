@@ -22,13 +22,12 @@ public class GridSystem
             for(int z = 0 ; z < height ; z++) 
             {
                 _gridObjectsArray[x, z] = new GridObject(this, new GridPosition(x, z));
-                //Debug.DrawLine(GetWorldPosition(x,z), GetWorldPosition(x,z) + Vector3.right*0.2f , Color.white, 10000);
             }
         }
     }
-    public Vector3 GetWorldPosition(GridPosition gridcell) 
+    private Vector3 GetWorldPosition(GridPosition gridPosition) 
     {
-        return new Vector3 (gridcell.x, 0, gridcell.z) *_cellSize + _gridOffset;
+        return new Vector3 (gridPosition.x, 0, gridPosition.z) *_cellSize + _gridOffset;
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition)
@@ -52,8 +51,8 @@ public class GridSystem
         }
     }
 
-    public GridObject GetGridObject(GridPosition gridCell) 
+    public GridObject GetGridObject(GridPosition gridPosition) 
     {
-        return _gridObjectsArray[gridCell.x, gridCell.z];
+        return _gridObjectsArray[gridPosition.x, gridPosition.z];
     }
 }

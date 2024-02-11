@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
     private float _stoppingDistance = .1f;
     private float moveSpeed = 4f;
     private float rotationSpeed = 5f;
+    private GridPosition _gridPosition;
 
     [SerializeField] private Animator unitAnimator;
 
@@ -14,6 +15,12 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         _targetPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(_gridPosition, this);
     }
 
     // Update is called once per frame
@@ -31,11 +38,24 @@ public class Unit : MonoBehaviour
         {
             unitAnimator.SetBool("IsWalking", false);
         }
+
+        var newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        if(_gridPosition != newGridPosition) 
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(this, _gridPosition, newGridPosition);
+            _gridPosition = newGridPosition;
+
+        }
         
     }
 
     public void Move(Vector3 targetPosition)
     {
         this._targetPosition = targetPosition;
+    }
+
+    public override string ToString()
+    {
+        return name;
     }
 }
