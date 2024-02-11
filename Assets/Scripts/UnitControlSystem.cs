@@ -5,9 +5,13 @@ public class UnitControlSystem : MonoBehaviour
 {
     public static UnitControlSystem Instance;
     public event EventHandler OnUnitSelected;
-
+    
+    
     [SerializeField] private Unit _selectedUnit;
     [SerializeField] LayerMask _unitLayerMast;
+    
+    
+
     public Unit SelectedUnit
     {
         private set { _selectedUnit = value; }
@@ -35,6 +39,7 @@ public class UnitControlSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if(HandleUnitSelection())return;
+            
             _selectedUnit?.Move(MouseWorld.GetPosition());
         }
     }

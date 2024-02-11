@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject _debugGridObject;
+    private GridSystem _grid;
+    private void Start()
     {
-        GridSystem grid = new GridSystem(10, 10, 2);
+        _grid = new GridSystem(10, 10, 2, Vector3.zero);
+        _grid.CreateDebugObjects(_debugGridObject);
+    }
+    private void Update()
+    {
+        //Debug.Log(_grid.GetGridPosition(MouseWorld.GetPosition()));
     }
 
 }
