@@ -9,6 +9,8 @@ public class GridObject
     private GridPosition _gridCell;
     private List<Unit> _unitList;
 
+    
+
     public GridObject(GridSystem gridSystem, GridPosition gridCell)
     {
         _gridSystem = gridSystem;
@@ -41,4 +43,9 @@ public class GridObject
         
         return $"{_gridCell.x},{_gridCell.z}\n{stringBuilder.ToString()}";
     }
+    public bool HasUnits()
+    {
+        return _unitList.Count > 0;
+    }
+
 }

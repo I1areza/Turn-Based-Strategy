@@ -1,23 +1,26 @@
 using UnityEngine;
 
+[RequireComponent(typeof(MoveAction))]
 public class Unit : MonoBehaviour
 {
 
-    private Vector3 _targetPosition;
-    private float _stoppingDistance = .1f;
-    private float moveSpeed = 4f;
-    private float rotationSpeed = 5f;
+
+    private MoveAction _moveAction;
     private GridPosition _gridPosition;
 
-    [SerializeField] private Animator unitAnimator;
+
+    public GridPosition GridPosition { get { return _gridPosition; } }
+    public MoveAction MoveAction { get { return _moveAction; } }
+
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        _targetPosition = transform.position;
+        _moveAction = GetComponent<MoveAction>();
     }
 
     private void Start()
+
     {
         _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(_gridPosition, this);
@@ -27,17 +30,7 @@ public class Unit : MonoBehaviour
     void Update()
     {
         
-        if(Vector3.Distance(transform.position, _targetPosition)>_stoppingDistance)
-        {
-            var moveDirection = (_targetPosition - transform.position).normalized;
-            transform.position += moveSpeed * Time.deltaTime * moveDirection;
-            unitAnimator.SetBool("IsWalking", true);
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-        }
-        else
-        {
-            unitAnimator.SetBool("IsWalking", false);
-        }
+       
 
         var newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if(_gridPosition != newGridPosition) 
@@ -49,13 +42,12 @@ public class Unit : MonoBehaviour
         
     }
 
-    public void Move(Vector3 targetPosition)
-    {
-        this._targetPosition = targetPosition;
-    }
+    
 
     public override string ToString()
     {
         return name;
     }
+
+    
 }

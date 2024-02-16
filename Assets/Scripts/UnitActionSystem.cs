@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class UnitControlSystem : MonoBehaviour
+public class UnitActionSystem : MonoBehaviour
 {
-    public static UnitControlSystem Instance;
+    public static UnitActionSystem Instance;
     public event EventHandler OnUnitSelected;
     
     
@@ -39,8 +39,12 @@ public class UnitControlSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if(HandleUnitSelection())return;
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            if (SelectedUnit.MoveAction.IsValidActionGridPosition(mouseGridPosition)) 
+            {
+                _selectedUnit?.MoveAction.Move(mouseGridPosition);
+            }
             
-            _selectedUnit?.Move(MouseWorld.GetPosition());
         }
     }
 

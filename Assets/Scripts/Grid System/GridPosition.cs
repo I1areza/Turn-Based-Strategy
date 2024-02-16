@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public struct GridPosition : IEquatable<GridPosition>
 {
@@ -28,7 +29,7 @@ public struct GridPosition : IEquatable<GridPosition>
 
     public override string ToString()
     {
-        return $"{x}; z: {z}";
+        return $"x: {x}; z: {z}";
     }
 
     public static bool operator ==(GridPosition a, GridPosition b)
@@ -41,6 +42,9 @@ public struct GridPosition : IEquatable<GridPosition>
         return !(a==b);
     }
 
-
+    public static GridPosition operator +(GridPosition a, GridPosition b)
+    {
+        return new GridPosition(a.x + b.x, a.z + b.z);
+    }
 
 }

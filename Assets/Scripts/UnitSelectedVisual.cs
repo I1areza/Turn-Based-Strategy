@@ -16,7 +16,7 @@ public class UnitSelectedVisual : MonoBehaviour
 
     private void Start()
     {
-        UnitControlSystem.Instance.OnUnitSelected += OnUnitSelectedChange;
+        UnitActionSystem.Instance.OnUnitSelected += OnUnitSelectedChange;
         UpdateHalo();
     }
 
@@ -27,7 +27,7 @@ public class UnitSelectedVisual : MonoBehaviour
 
     private void UpdateHalo() 
     {
-        if (UnitControlSystem.Instance.SelectedUnit == _unit)
+        if (UnitActionSystem.Instance.SelectedUnit == _unit)
         {
             _meshRenderer.enabled = true;
         }

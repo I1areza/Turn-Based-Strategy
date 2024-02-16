@@ -9,6 +9,10 @@ public class GridSystem
     private int _cellSize;
     private Vector3 _gridOffset;
     private GridObject[,] _gridObjectsArray;
+
+
+    public int Width { get { return _width; } }
+    public int Height { get { return _height; } }
     public GridSystem(int width, int height, int cellSize, Vector3 gridOffset)
     {
         _width = width;
@@ -25,7 +29,7 @@ public class GridSystem
             }
         }
     }
-    private Vector3 GetWorldPosition(GridPosition gridPosition) 
+    public Vector3 GetWorldPosition(GridPosition gridPosition) 
     {
         return new Vector3 (gridPosition.x, 0, gridPosition.z) *_cellSize + _gridOffset;
     }
@@ -54,5 +58,13 @@ public class GridSystem
     public GridObject GetGridObject(GridPosition gridPosition) 
     {
         return _gridObjectsArray[gridPosition.x, gridPosition.z];
+    }
+
+    public bool IsValidGridPosition(GridPosition position) 
+    {
+         return position.x >= 0 &&
+                position.x < _width &&
+                position.z >= 0 &&
+                position.z < _height;
     }
 }
