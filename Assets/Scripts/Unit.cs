@@ -4,13 +4,14 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 
-
+    private SpinAction _spinAction;
     private MoveAction _moveAction;
     private GridPosition _gridPosition;
 
 
     public GridPosition GridPosition { get { return _gridPosition; } }
     public MoveAction MoveAction { get { return _moveAction; } }
+    public SpinAction SpinAction { get { return _spinAction; } }
 
 
     // Start is called before the first frame update

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class BaseAction : MonoBehaviour
 {
+    protected Unit _unit;
+    protected bool _isActive;
     // Start is called before the first frame update
-    void Start()
+    
+    protected virtual void Awake()
     {
-        
+        _unit = GetComponent<Unit>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
