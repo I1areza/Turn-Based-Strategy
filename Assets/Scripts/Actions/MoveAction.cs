@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [RequireComponent(typeof(Unit))]
@@ -29,7 +31,7 @@ public class MoveAction : BaseAction
     // Update is called once per frame
     void Update()
     {
-        if(_isActive) { return; }
+        if(!_isActive) { return; }
         if (Vector3.Distance(transform.position, _targetPosition) > _stoppingDistance)
         {
             var moveDirection = (_targetPosition - transform.position).normalized;
@@ -41,12 +43,14 @@ public class MoveAction : BaseAction
         {
             unitAnimator.SetBool("IsWalking", false);
             _isActive = false;
+            _onActionComplete();
         }
     }
 
 
-    public void Move(GridPosition gridPosition)
+    public void Move(GridPosition gridPosition, Action onMoveComplete)
     {
+        _onActionComplete = onMoveComplete;
         _isActive = true;
         this._targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
@@ -87,5 +91,10 @@ public class MoveAction : BaseAction
     {
         var validGridPosition = GetValidActionGridPositionList();
         return validGridPosition.Contains(gridPosition);
+    }
+
+    public override string GetActionName()
+    {
+        return "Move";
     }
 }

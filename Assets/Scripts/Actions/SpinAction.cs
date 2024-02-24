@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,11 @@ using UnityEngine;
 public class SpinAction : BaseAction
 {
     private float _totalSpinAmount;
-    
-    public void Spin() 
+    public delegate void SpinCompleteDelegate();
+    private SpinCompleteDelegate _onSpinComplete;
+    public void Spin(Action OnSpinComplete) 
     {
+        _onActionComplete += OnSpinComplete;
         _isActive = true;
         _totalSpinAmount = 0f;
     }
@@ -22,7 +25,13 @@ public class SpinAction : BaseAction
         if (_totalSpinAmount >= 360f) 
         {
             _isActive = false;
+            _onActionComplete();
         }
         
+    }
+
+    public override string GetActionName()
+    {
+        return "Spin";
     }
 }

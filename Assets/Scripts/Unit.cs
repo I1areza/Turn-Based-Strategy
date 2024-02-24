@@ -7,8 +7,9 @@ public class Unit : MonoBehaviour
     private SpinAction _spinAction;
     private MoveAction _moveAction;
     private GridPosition _gridPosition;
+    private BaseAction[] _baseActionArray;
 
-
+    public BaseAction[] Actions { private set { _baseActionArray = value; } get { return _baseActionArray; } }
     public GridPosition GridPosition { get { return _gridPosition; } }
     public MoveAction MoveAction { get { return _moveAction; } }
     public SpinAction SpinAction { get { return _spinAction; } }
@@ -17,7 +18,9 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        _spinAction = GetComponent<SpinAction>();
         _moveAction = GetComponent<MoveAction>();
+        _baseActionArray = GetComponents<BaseAction>();
     }
 
     private void Start()
