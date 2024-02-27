@@ -8,9 +8,9 @@ public class SpinAction : BaseAction
     private float _totalSpinAmount;
     public delegate void SpinCompleteDelegate();
     private SpinCompleteDelegate _onSpinComplete;
-    public void Spin(Action OnSpinComplete) 
+    public override void TakeAction(GridPosition gridPosition, Action OnActionComplete) 
     {
-        _onActionComplete += OnSpinComplete;
+        _onActionComplete += OnActionComplete;
         _isActive = true;
         _totalSpinAmount = 0f;
     }
@@ -33,5 +33,13 @@ public class SpinAction : BaseAction
     public override string GetActionName()
     {
         return "Spin";
+    }
+
+    public override List<GridPosition> GetValidActionGridPositionList()
+    {
+        var validGridPositionsList = new List<GridPosition>();
+        GridPosition unitGridPosition = _unit.GridPosition;
+        validGridPositionsList.Add(unitGridPosition);
+        return validGridPositionsList;
     }
 }

@@ -18,5 +18,9 @@ public class ActionButtonUI : MonoBehaviour
     {
         _textMeshPro.text = action.GetActionName();
         _action= action;
+        _button.onClick.AddListener(() => 
+        {
+            UnitActionSystem.Instance.SetSelectedAction(_action);
+        });
     }
 }
