@@ -50,19 +50,10 @@ public class GridSystemVisual : MonoBehaviour
 
     public void UpdateValidGridSystemVisual() 
     {
-        var moveAction = UnitActionSystem.Instance.SelectedUnit.GetComponent<MoveAction>();
-        var validPositions = moveAction.GetValidActionGridPositionList();
-        foreach (var cell in _gridSystemVisualSingles) 
-        {
-            if (validPositions.Contains(cell.GridPosition)) 
-            {
-                cell.Show();
-            }
-            else 
-            {
-                cell.Hide();
-            }
-        }
+        HideAllGridPositions();
+        var action = UnitActionSystem.Instance.SelectedAction;
+        var validPositions = action.GetValidActionGridPositionList();
+        ShowAllGridPositions(validPositions);
     }
 
     public void HideAllGridPositions() 

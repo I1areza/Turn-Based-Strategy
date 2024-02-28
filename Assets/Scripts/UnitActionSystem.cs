@@ -19,6 +19,7 @@ public class UnitActionSystem : MonoBehaviour
         private set { _selectedUnit = value; }
         get { return _selectedUnit; }
     }
+    public BaseAction SelectedAction { get { return _selectedAction; } }
 
 
 
@@ -60,6 +61,10 @@ public class UnitActionSystem : MonoBehaviour
             {
                 if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
+                    if(unit == _selectedUnit) 
+                    {
+                        return false;
+                    }
                     SetSelectedUnit(unit);
                     return true;
                 }
