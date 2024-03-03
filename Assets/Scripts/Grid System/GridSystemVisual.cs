@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class GridSystemVisual : MonoBehaviour
 {
+    #region Variables
     [SerializeField] GridSystemVisualSingle _gridPrefab;
     private GridSystemVisualSingle[,] _gridSystemVisualSingles;
     public static GridSystemVisual Instance;
+    #endregion
 
+    #region Built-in Methods
     private void Awake()
     {
         if (Instance != null)
@@ -20,15 +23,12 @@ public class GridSystemVisual : MonoBehaviour
         Instance = this;
     }
 
-
-    // Start is called before the first frame update
     void Start()
     {
         _gridSystemVisualSingles = new GridSystemVisualSingle[
             LevelGrid.Instance.GetWidth(),
             LevelGrid.Instance.GetHeight()
             ];
-
         for (int x = 0; x< LevelGrid.Instance.GetWidth(); x++) 
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++) 
@@ -47,6 +47,7 @@ public class GridSystemVisual : MonoBehaviour
     {
         UpdateValidGridSystemVisual();
     }
+    #endregion
 
     public void UpdateValidGridSystemVisual() 
     {

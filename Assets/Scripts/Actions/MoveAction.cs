@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Unit))]
 public class MoveAction : BaseAction
 {
-
+    #region Variables
     private Vector3 _targetPosition;
     private float _stoppingDistance = .1f;
     private float moveSpeed = 4f;
@@ -15,21 +15,21 @@ public class MoveAction : BaseAction
 
     [SerializeField] private int maxMoveDistance;
     [SerializeField] private Animator unitAnimator;
+    #endregion
 
-
+    #region Built-in Methods
     protected override void Awake()
     {
         base.Awake();
         _actionCost = 1;
         _targetPosition = transform.position;
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         _unit = GetComponent<Unit>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!_isActive) { return; }
@@ -47,7 +47,7 @@ public class MoveAction : BaseAction
             _onActionComplete();
         }
     }
-
+    #endregion
 
     public override void TakeAction(GridPosition gridPosition, Action OnActionComplete)
     {
@@ -56,23 +56,15 @@ public class MoveAction : BaseAction
         this._targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
 
-
-
     public override List<GridPosition> GetValidActionGridPositionList() 
     {
         var validGridPositionsList = new List<GridPosition>();
-        
-
         for(int x = -maxMoveDistance; x<=maxMoveDistance; x++) 
         {
             for(int z = -maxMoveDistance; z<=maxMoveDistance; z++) 
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = _unit.GridPosition + offsetGridPosition;
-                /*if(testGridPosition == _unit.GridPosition) 
-                {
-                    continue;
-                }*/
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) 
                 {
                     continue;
@@ -84,7 +76,6 @@ public class MoveAction : BaseAction
                 validGridPositionsList.Add(testGridPosition);
             }
         }
-
         return validGridPositionsList;
     }
 

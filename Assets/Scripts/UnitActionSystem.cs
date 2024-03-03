@@ -5,24 +5,31 @@ using UnityEngine.UIElements;
 
 public class UnitActionSystem : MonoBehaviour
 {
+    #region Variables
     public static UnitActionSystem Instance;
-    public event EventHandler OnUnitSelectedChanged;
-    public event EventHandler OnSelectedActionChanged;
-    public event EventHandler<ActionBusyEventArgs> OnSelectedBusyChanged;
-    public event EventHandler OnActionStarted;
-
     [SerializeField] private Unit _selectedUnit;
     [SerializeField] LayerMask _unitLayerMast;
     private bool _isBusy;
     private BaseAction _selectedAction;
+    #endregion
 
+    #region Events
+    public event EventHandler OnUnitSelectedChanged;
+    public event EventHandler OnSelectedActionChanged;
+    public event EventHandler<ActionBusyEventArgs> OnSelectedBusyChanged;
+    public event EventHandler OnActionStarted;
+    #endregion
+
+    #region Poperties
     public Unit SelectedUnit
     {
         private set { _selectedUnit = value; }
         get { return _selectedUnit; }
     }
     public BaseAction SelectedAction { get { return _selectedAction; } }
+    #endregion
 
+    #region Built-in Methods
     private void Awake()
     {
         if (Instance != null)
@@ -39,7 +46,6 @@ public class UnitActionSystem : MonoBehaviour
         SetSelectedUnit(_selectedUnit);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_isBusy) { return; }
@@ -49,8 +55,8 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
         HandleSelectedAction();
-        
     }
+    #endregion
 
     public bool TryHandleUnitSelection()
     {

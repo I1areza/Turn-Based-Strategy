@@ -5,24 +5,20 @@ using UnityEngine;
 
 public class SpinAction : BaseAction
 {
+    #region Variables
     private float _totalSpinAmount;
     public delegate void SpinCompleteDelegate();
     private SpinCompleteDelegate _onSpinComplete;
+    #endregion
 
-
+    #region Built-in Methods
     protected override void Awake()
     {
         base.Awake();
         _actionCost = 2;
     }
-    public override void TakeAction(GridPosition gridPosition, Action OnActionComplete) 
-    {
-        _onActionComplete += OnActionComplete;
-        _isActive = true;
-        _totalSpinAmount = 0f;
-    }
-    
-    void Update()
+
+    private void Update()
     {
         if (!_isActive) { return; }
 
@@ -34,7 +30,14 @@ public class SpinAction : BaseAction
             _isActive = false;
             _onActionComplete();
         }
-        
+    }
+    #endregion
+
+    public override void TakeAction(GridPosition gridPosition, Action OnActionComplete) 
+    {
+        _onActionComplete += OnActionComplete;
+        _isActive = true;
+        _totalSpinAmount = 0f;
     }
 
     public override string GetActionName()

@@ -17,10 +17,4 @@ public class ActionBusyUI : MonoBehaviour
     {
         _busyPlaque.SetActive(e.BusyState);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

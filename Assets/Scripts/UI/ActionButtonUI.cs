@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ActionButtonUI : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private GameObject _selectedBorder;
     private Button _button;
     private BaseAction _action;
     private BaseAction _baseAction;
+    #endregion
 
+    #region Built-in Methods
     private void Awake()
     {
         _button = GetComponent<Button>();
@@ -19,6 +22,7 @@ public class ActionButtonUI : MonoBehaviour
     {
         
     }
+    #endregion
 
     public void SetBaseAction(BaseAction action)
     {
