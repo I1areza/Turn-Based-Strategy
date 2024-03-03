@@ -16,7 +16,7 @@ public class UnitSelectedVisual : MonoBehaviour
 
     private void Start()
     {
-        UnitActionSystem.Instance.OnUnitSelected += OnUnitSelectedChange;
+        UnitActionSystem.Instance.OnUnitSelectedChanged += OnUnitSelectedChange;
         UpdateHalo();
     }
 

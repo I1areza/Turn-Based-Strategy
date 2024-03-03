@@ -8,6 +8,13 @@ public class SpinAction : BaseAction
     private float _totalSpinAmount;
     public delegate void SpinCompleteDelegate();
     private SpinCompleteDelegate _onSpinComplete;
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _actionCost = 2;
+    }
     public override void TakeAction(GridPosition gridPosition, Action OnActionComplete) 
     {
         _onActionComplete += OnActionComplete;

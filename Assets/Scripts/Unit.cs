@@ -8,7 +8,9 @@ public class Unit : MonoBehaviour
     private MoveAction _moveAction;
     private GridPosition _gridPosition;
     private BaseAction[] _baseActionArray;
+    [SerializeField] private int _actionPoints;
 
+    public int ActionPoints { private set { _actionPoints = value; } get { return _actionPoints; } }
     public BaseAction[] Actions { private set { _baseActionArray = value; } get { return _baseActionArray; } }
     public GridPosition GridPosition { get { return _gridPosition; } }
     public MoveAction MoveAction { get { return _moveAction; } }
@@ -53,5 +55,23 @@ public class Unit : MonoBehaviour
         return name;
     }
 
+    private bool CanSpendActionPoints(BaseAction action) 
+    {
+        return (_actionPoints >= action.ActionPointsCost);
+    }
     
+    private void SpendActionPoints(BaseAction action) 
+    {
+        _actionPoints -= action.ActionPointsCost;
+    }
+
+    public bool TrySpendActionPoints(BaseAction action) 
+    {
+        if(CanSpendActionPoints(action)) 
+        {
+            SpendActionPoints(action);
+            return true;
+        }
+        return false;
+    }
 }

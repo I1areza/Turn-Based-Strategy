@@ -1,15 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class UnitActionSystem : MonoBehaviour
 {
     public static UnitActionSystem Instance;
-    public event EventHandler OnUnitSelected;
-
+    public event EventHandler OnUnitSelectedChanged;
+    public event EventHandler OnSelectedActionChanged;
+    public event EventHandler<ActionBusyEventArgs> OnSelectedBusyChanged;
+    public event EventHandler OnActionStarted;
 
     [SerializeField] private Unit _selectedUnit;
-   
     [SerializeField] LayerMask _unitLayerMast;
     private bool _isBusy;
     private BaseAction _selectedAction;
@@ -20,9 +22,6 @@ public class UnitActionSystem : MonoBehaviour
         get { return _selectedUnit; }
     }
     public BaseAction SelectedAction { get { return _selectedAction; } }
-
-
-
 
     private void Awake()
     {
@@ -77,22 +76,29 @@ public class UnitActionSystem : MonoBehaviour
     {
         _selectedUnit = unit;
         SetSelectedAction(_selectedUnit.MoveAction);
-        OnUnitSelected?.Invoke(this, EventArgs.Empty);
+        OnUnitSelectedChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void SetBusy() 
+    private void SetBusy()
     {
         _isBusy = true;
+        var eventArgs = new ActionBusyEventArgs();
+        eventArgs.BusyState = _isBusy;
+        OnSelectedBusyChanged(this, eventArgs);
     }
 
-    private void ClearBusy() 
+    private void ClearBusy()
     {
         _isBusy = false;
+        var eventArgs = new ActionBusyEventArgs();
+        eventArgs.BusyState = _isBusy;
+        OnSelectedBusyChanged(this, eventArgs);
     }
 
     public void SetSelectedAction(BaseAction action) 
     {
         _selectedAction = action;
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void HandleSelectedAction()
@@ -102,8 +108,12 @@ public class UnitActionSystem : MonoBehaviour
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             if(_selectedAction.IsValidActionGridPosition(mouseGridPosition)) 
             {
-                SetBusy();
-                _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                if (_selectedUnit.TrySpendActionPoints(SelectedAction)) 
+                {
+                    OnActionStarted(this, EventArgs.Empty);
+                    SetBusy();
+                    _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                }
             }
         }
     }

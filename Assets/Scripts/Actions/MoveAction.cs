@@ -20,6 +20,7 @@ public class MoveAction : BaseAction
     protected override void Awake()
     {
         base.Awake();
+        _actionCost = 1;
         _targetPosition = transform.position;
     }
     // Start is called before the first frame update

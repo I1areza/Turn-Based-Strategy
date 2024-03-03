@@ -7,11 +7,16 @@ public abstract class BaseAction : MonoBehaviour
     protected Unit _unit;
     protected bool _isActive;
     protected Action _onActionComplete;
+    protected int _actionCost;
+
+    public int ActionPointsCost { get { return _actionCost; } }
+
     // Start is called before the first frame update
-    
+
     protected virtual void Awake()
     {
         _unit = GetComponent<Unit>();
+       
     }
 
     public abstract string GetActionName();
